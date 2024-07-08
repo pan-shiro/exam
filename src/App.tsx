@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { quizStatus } from "./interfaces/quizStatus";
 import { Category } from "./interfaces/category";
 import { getCategories, getQuestions } from "./util/api";
@@ -10,7 +10,10 @@ function App() {
   const [questions, setQuestions] = useState<Question[]>([])
   const [quizStatus, setQuizStatus] = useState<quizStatus>('idle');
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedOption, setSelectedOption] = useState('')
+  const [selectedOption, setSelectedOption] = useState('');
+  const scoreRef = useRef(0);
+  const percentageRef = useRef(0);
+  const resultRef = useRef(false)
   // const { question: currentQuestion } = questions && questions[currentIndex];
 
   useEffect(() => {
@@ -32,7 +35,7 @@ function App() {
     // if (quizStatus === 'begun') {
     //   startFetching();
     // }
-    if (selectedCategory === '' || quizStatus === 'begun') return;
+    if (selectedCategory === '') return;
     startFetching();
 
 
@@ -40,9 +43,17 @@ function App() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const { answers: currentOptions, correct_answer } = questions[currentIndex];
+    scoreRef.current = selectedOption === correct_answer ? scoreRef.current + 1 : scoreRef.current;
+    console.log("score is " + scoreRef.current)
+    
+
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(ci => ci + 1);
     } else {
+      percentageRef.current = Math.round((scoreRef.current / questions.length) * 100);
+      resultRef.current = percentageRef.current >= 50 ? true : false;
       setQuizStatus("finished");
     }
   }
@@ -86,6 +97,13 @@ function App() {
           </form>
           </section>
           }
+          {quizStatus === 'finished' && <section>
+              <ul>
+                <li>Score: {percentageRef.current} %</li>
+                <li>Total questions: {questions.length}</li>
+                <li>Correct answers: {scoreRef.current}</li>
+              </ul>
+            </section>}
       </main>
     </>
   );
