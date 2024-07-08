@@ -18,6 +18,7 @@ function App() {
     startFetching();
   },[]);
 
+
   return (
     <>
         <header>
@@ -36,6 +37,7 @@ function App() {
                 <option value={cat.name} key={cat.id}>{cat.name}</option>
               ))}
                 </select>
+                <button onClick={() => setQuizStatus("begun")} disabled={selectedCategory === ''}>Start Quiz</button>
                 </div>
             </section>}
         </main>
