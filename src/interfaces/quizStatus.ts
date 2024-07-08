@@ -1,0 +1,1 @@
+export type quizStatus = "idle" | "begun" | "finished";
