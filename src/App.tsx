@@ -109,61 +109,78 @@ function App() {
     setTimer(30);
     scoreRef.current = 0;
     percentageRef.current = 0;
+    resultRef.current = false;
   }
 
 
   return (
-    <div className="h-screen bg-indigo-50">
+    <div className="h-screen bg-slate-300">
       <header className="text-3xl font-bold py-6 text-center">
         <h1>Computer Science Quiz</h1>
       </header>
       <main className="px-4 py-2 mt-4 w-full h-1/2 flex justify-center items-center">
-        {quizStatus === 'idle' && <section className="w-1/2 min-h-72 p-2 mx-auto bg-slate-400 rounded-lg shadow-xl">
-          <header className="text-xl font-semibold text-indigo-100 text-center mt-2">
+        {quizStatus === 'idle' && <section className="w-1/2 p-2 mx-auto bg-slate-100 rounded-lg shadow-xl">
+          <header className="text-xl font-semibold text-black text-center mt-2">
             <h3>How good are your computer skills?</h3>
             <h5 className="text-base font-normal -mt-1">Test your computer knowledge by answering 10 questions</h5>
           </header>
-          <div className="p-2 h-40 flex gap-8 items-center">
+          <div className="py-2 px-4">
+            <ol className="list-decimal px-2 space-y-1">
+              <li>Choose a category and click the button to begin</li>
+              <li>This quiz is comprised of multiple choices. Choose the correct one and click <em>Next</em></li>
+              <li>You have 30 seconds for each question. If you fail to choose an option before the timer ends, a random option will be chosen</li>
+              <li>At the end, a score will be calculated and shown</li>
+              <li>You may try as many times as you want.</li>
+            </ol>
             {/* <label htmlFor="categorySelect">Please choose a category</label> */}
-            <select className="flex-1 p-2 rounded-lg mx-auto" name="categorySelect" id="categorySelect" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+            <div className="mt-10 flex gap-8 items-center">
+
+            <select className="flex-1 p-2 rounded-lg border border-slate-200" name="categorySelect" id="categorySelect" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
               <option value="">Please choose a category</option>
               {categories && categories.map(cat => (
                 <option value={cat.name} key={cat.id}>{cat.name[0].toUpperCase() + cat.name.slice(1)}</option>
               ))}
             </select>
             <button className="rounded-lg bg-indigo-500 px-4 py-2 text-indigo-100 hover:bg-indigo-600 disabled:bg-indigo-300 disabled:cursor-not-allowed" onClick={() => setQuizStatus('begun')} disabled={selectedCategory === ''}>Start Quiz</button>
+              </div>
           </div>
         </section>}
-        {quizStatus === 'begun' && questions.length && <section>
-          <header className="legend flex justify-between">
-            <h5>
-              Question {currentIndex + 1} of {questions.length}
+        {quizStatus === 'begun' && questions.length > 0 ? <section className="w-1/2 min-h-72 p-2 mx-auto bg-slate-100 rounded-lg shadow-xl box-border">
+          <header className="flex justify-between items-center py-2 px-3">
+            <h5 className="text-sm">
+              Question <span className="font-semibold italic">{currentIndex + 1}</span> of <span className="font-semibold italic">{questions.length}</span>
             </h5>
-            <h5>{timer}</h5>
+            <div className="px-2 py-1 border border-dashed border-indigo-300 rounded-full w-7 h-7 flex justify-center items-center"><h5 className="text-sm font-semibold text-indigo-800">{timer}</h5></div>
           </header>
-          <form onSubmit={handleSubmit}>
-            <p>{questions && questions[currentIndex]?.question}</p>
-            <ul>
+          <form className="px-3" onSubmit={handleSubmit}>
+            <p className="text-lg font-semibold mb-4">{questions && questions[currentIndex]?.question}</p>
+            <ul className="px-4">
               {Object.values(questions[currentIndex].answers).filter((ans) => ans !== null).map((ans, i) => (
-                <li key={ans}>
-                  <label>
-                    <input type="radio" name={currentIndex.toString()} value={Object.keys(questions[currentIndex].answers)[i]} onChange={(e) => setSelectedOption(e.target.value)} />
+                <li className="my-2 hover:bg-indigo-100 rounded-lg" key={ans}>
+                  <label className="align-middle font-mono w-full block">
+                    <input className="mx-4 align-middle" type="radio" name={currentIndex.toString()} value={Object.keys(questions[currentIndex].answers)[i]} onChange={(e) => setSelectedOption(e.target.value)} />
                     {ans}
                   </label>
                 </li>
               ))}
             </ul>
-            <button type="submit" disabled={!selectedOption}>{currentIndex < questions.length - 1 ? "Next" : "Submit answers"} </button>
+            <div className="flex justify-end">
+            <button className="rounded-lg bg-indigo-500 px-4 py-2 min-w-24 text-indigo-100 hover:bg-indigo-600 disabled:bg-indigo-300 disabled:cursor-not-allowed" type="submit" disabled={!selectedOption}>{currentIndex < questions.length - 1 ? "Next" : "Submit answers"} </button>
+            </div>
           </form>
-        </section>
-        }
-        {quizStatus === 'finished' && <section>
-          <ul>
-            <li>Score: {percentageRef.current} %</li>
-            <li>Total questions: {questions.length}</li>
-            <li>Correct answers: {scoreRef.current}</li>
+        </section> : (quizStatus === 'begun' &&
+        <div>
+          <p className="italic text-2xl text-gray-500 text-center">Fetching questions...</p>
+        </div>)
+      }
+        
+        {quizStatus === 'finished' && <section className="w-1/2 min-h-72 p-2 flex flex-col justify-center items-center gap-6 bg-slate-100 rounded-lg shadow-xl">
+          <ul className="text-xl space-y-3 w-3/4">
+            <li className="flex gap-2"><span className="font-semibold flex-1">Score: </span> <span className="font-mono text-2xl" style={{color: resultRef.current ? 'green' : 'crimson'}}>{percentageRef.current}%</span></li>
+            <li className="flex gap-2"><span className="font-semibold flex-1">Total questions: </span><span className="font-mono text-2xl">{questions.length}</span></li>
+            <li className="flex gap-2"><span className="font-semibold flex-1">Correct answers: </span> <span className="font-mono text-2xl">{scoreRef.current}</span></li>
           </ul>
-          <button onClick={handleReset}>Try again</button>
+          <button className="rounded-lg bg-indigo-500 px-4 py-2 text-indigo-100 hover:bg-indigo-600" onClick={handleReset}>Try again</button>
         </section>}
       </main>
     </div>
