@@ -113,24 +113,25 @@ function App() {
 
 
   return (
-    <>
-      <header>
+    <div className="h-screen bg-indigo-50">
+      <header className="text-3xl font-bold py-6 text-center">
         <h1>Computer Science Quiz</h1>
       </header>
-      <main>
-        {quizStatus === 'idle' && <section>
-          <header>
-            <h3>Welcome to a quiz that's going to test your computer knowledge!</h3>
+      <main className="px-4 py-2 mt-4 w-full h-1/2 flex justify-center items-center">
+        {quizStatus === 'idle' && <section className="w-1/2 min-h-72 p-2 mx-auto bg-slate-400 rounded-lg shadow-xl">
+          <header className="text-xl font-semibold text-indigo-100 text-center mt-2">
+            <h3>How good are your computer skills?</h3>
+            <h5 className="text-base font-normal -mt-1">Test your computer knowledge by answering 10 questions</h5>
           </header>
-          <div>
-            <label htmlFor="categorySelect">Plese choose a category</label>
-            <select name="categorySelect" id="categorySelect" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-              <option value="">----------</option>
+          <div className="p-2 h-40 flex gap-8 items-center">
+            {/* <label htmlFor="categorySelect">Please choose a category</label> */}
+            <select className="flex-1 p-2 rounded-lg mx-auto" name="categorySelect" id="categorySelect" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+              <option value="">Please choose a category</option>
               {categories && categories.map(cat => (
-                <option value={cat.name} key={cat.id}>{cat.name}</option>
+                <option value={cat.name} key={cat.id}>{cat.name[0].toUpperCase() + cat.name.slice(1)}</option>
               ))}
             </select>
-            <button onClick={() => setQuizStatus('begun')} disabled={selectedCategory === ''}>Start Quiz</button>
+            <button className="rounded-lg bg-indigo-500 px-4 py-2 text-indigo-100 hover:bg-indigo-600 disabled:bg-indigo-300 disabled:cursor-not-allowed" onClick={() => setQuizStatus('begun')} disabled={selectedCategory === ''}>Start Quiz</button>
           </div>
         </section>}
         {quizStatus === 'begun' && questions.length && <section>
@@ -165,7 +166,7 @@ function App() {
           <button onClick={handleReset}>Try again</button>
         </section>}
       </main>
-    </>
+    </div>
   );
 }
 
