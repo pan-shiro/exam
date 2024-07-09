@@ -100,6 +100,17 @@ function App() {
     }
   }
 
+  const handleReset = () => {
+    setQuizStatus('idle');
+    setCurrentIndex(0);
+    setSelectedCategory('');
+    setSelectedOption('');
+    setQuestions([]);
+    setTimer(30);
+    scoreRef.current = 0;
+    percentageRef.current = 0;
+  }
+
 
   return (
     <>
@@ -141,7 +152,7 @@ function App() {
                 </li>
               ))}
             </ul>
-            <button type="submit" disabled={!selectedOption}>{currentIndex < questions.length - 1 ? "Next" : "Finish"} </button>
+            <button type="submit" disabled={!selectedOption}>{currentIndex < questions.length - 1 ? "Next" : "Submit answers"} </button>
           </form>
         </section>
         }
@@ -151,6 +162,7 @@ function App() {
             <li>Total questions: {questions.length}</li>
             <li>Correct answers: {scoreRef.current}</li>
           </ul>
+          <button onClick={handleReset}>Try again</button>
         </section>}
       </main>
     </>
