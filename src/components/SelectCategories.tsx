@@ -2,11 +2,11 @@ import { Category } from "../interfaces/category"
 
 interface SelectCategoriesProps {
   categories: Category[];
-  selectedCat: string;
   onSelectOptionChange: React.ChangeEventHandler<HTMLSelectElement>
+  selectedCat: string;
 }
 
-export default function SelectCategories({categories, selectedCat, onSelectOptionChange}: SelectCategoriesProps) {
+export default function SelectCategories({categories, onSelectOptionChange, selectedCat}: SelectCategoriesProps) {
     return (
         <select className="flex-1 p-2 rounded-lg border border-slate-200" name="categorySelect" id="categorySelect" value={selectedCat} onChange={onSelectOptionChange}>
         <option value="">Please choose a category</option>

@@ -197,7 +197,7 @@ function App() {
         {quizStatus === 'begun' && questions.length > 0 ? <section className="w-1/2 min-h-72 p-2 mx-auto bg-slate-100 rounded-lg shadow-xl box-border">
 
           <QuestionHeader index={currentIndex} q={questions} timer={timer} />
-          <QuizForm onSubmitClick={handleSubmit} questions={questions} index={currentIndex} multOptions={multipleOptions} selectedOpt={selectedOption} onInputChange={handleOptions} checkboxCheck={checkboxCheck} isCheckboxType={isCheckboxType} />
+          <QuizForm checkboxCheck={checkboxCheck} index={currentIndex} isCheckboxType={isCheckboxType} multOptions={multipleOptions} onInputChange={handleOptions} onSubmitClick={handleSubmit} questions={questions} selectedOpt={selectedOption} />
         </section> : (quizStatus === 'begun' &&
           <div>
             <p className="italic text-2xl text-gray-500 text-center">Fetching questions...</p>
@@ -205,7 +205,8 @@ function App() {
         }
 
         {quizStatus === 'finished' &&
-          <ScorePage resultRef={resultRef} percentageRef={percentageRef} questions={questions} scoreRef={scoreRef} onResetBtnClick={handleReset} />
+        <ScorePage onResetBtnClick={handleReset} percentageRef={percentageRef} questions={questions} resultRef={resultRef} scoreRef={scoreRef} />
+          // <ScorePage resultRef={resultRef} percentageRef={percentageRef} questions={questions} scoreRef={scoreRef} onResetBtnClick={handleReset} />
         }
       </main>
     </div>

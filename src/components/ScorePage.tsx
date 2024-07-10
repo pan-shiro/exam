@@ -1,14 +1,14 @@
 import { Question } from "../interfaces/question";
 
 interface ScorePageProps {
-    resultRef: React.MutableRefObject<boolean>;
+    onResetBtnClick: React.MouseEventHandler<HTMLButtonElement>;
     percentageRef: React.MutableRefObject<number>;
     questions: Question[];
+    resultRef: React.MutableRefObject<boolean>;
     scoreRef: React.MutableRefObject<number>;
-    onResetBtnClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export default function ScorePage({ resultRef, percentageRef, questions, scoreRef, onResetBtnClick }: ScorePageProps) {
+export default function ScorePage({ onResetBtnClick, percentageRef, questions, resultRef, scoreRef }: ScorePageProps) {
     return (
         <section className="w-1/2 min-h-72 p-2 flex flex-col justify-center items-center gap-6 bg-slate-100 rounded-lg shadow-xl">
             <ul className="text-xl space-y-3 w-3/4">

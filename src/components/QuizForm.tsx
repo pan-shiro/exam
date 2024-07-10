@@ -1,17 +1,17 @@
 import { Question } from "../interfaces/question";
 
 interface QuizFormProps {
-    onSubmitClick: React.FormEventHandler<HTMLFormElement>;
-    questions: Question[];
-    index:  number;
-    multOptions: string[];
-    selectedOpt: string;
-    onInputChange: React.FormEventHandler<HTMLInputElement>
-    checkboxCheck: boolean;
-    isCheckboxType: boolean;
+  checkboxCheck: boolean;
+  index:  number;
+  isCheckboxType: boolean;
+  multOptions: string[];
+  onInputChange: React.FormEventHandler<HTMLInputElement>
+  onSubmitClick: React.FormEventHandler<HTMLFormElement>;
+  questions: Question[];
+  selectedOpt: string;
 }
 
-export default function QuizForm({onSubmitClick, questions, index, multOptions, selectedOpt, onInputChange, checkboxCheck, isCheckboxType}: QuizFormProps) {
+export default function QuizForm({checkboxCheck, index, isCheckboxType, multOptions, onInputChange, onSubmitClick, questions, selectedOpt}: QuizFormProps) {
     return (
         <form className="px-3" onSubmit={onSubmitClick}>
             <p className="text-lg font-semibold mb-4">{questions && questions[index]?.question}</p>
