@@ -1,8 +1,16 @@
+import { Category } from "../interfaces/category";
 import Instructions from "./Instructions";
 import IntroHeader from "./IntroHeader";
 import SelectCategories from "./SelectCategories";
 
-export default function StartingScreen({selectedCategory, categories, onSelectOptionChange, onStartQuizBtnClick}) {
+interface StartingScreenProps {
+    selectedCategory: string;
+    categories: Category[];
+    onSelectOptionChange: React.ChangeEventHandler<HTMLSelectElement>
+    onStartQuizBtnClick: React.MouseEventHandler<HTMLButtonElement> 
+}
+
+export default function StartingScreen({selectedCategory, categories, onSelectOptionChange, onStartQuizBtnClick} : StartingScreenProps) {
     return (
         <section className="w-1/2 p-2 mx-auto bg-slate-100 rounded-lg shadow-xl">
             <IntroHeader />
