@@ -5,7 +5,7 @@ import type { Question } from "../interfaces/question";
 const instance = axios.create({
   baseURL: "https://quizapi.io/api/",
   headers: { "X-Api-Key": import.meta.env.VITE_API_KEY },
-  timeout: 1000,
+  // timeout: 1000,
 });
 
 export async function getCategories(): Promise<Category[]> {
