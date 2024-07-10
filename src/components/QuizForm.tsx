@@ -19,12 +19,12 @@ export default function QuizForm({checkboxCheck, index, isCheckboxType, multOpti
               {Object.values(questions[index].answers).filter((ans) => ans !== null).map((ans, i) => (
                 <li className="my-2 hover:bg-indigo-100 rounded-lg" key={ans}>
                   {questions[index].multiple_correct_answers !== "true" ?
-                    <label className="align-middle font-mono w-full block">
+                    <label className="align-middle font-mono w-full block hover:cursor-pointer">
                       <input key={i} className="mx-4 align-middle" type="radio" name={index.toString()} value={Object.keys(questions[index].answers)[i]} onChange={onInputChange} />
                       {ans}
                     </label>
                     :
-                    <label className="align-middle font-mono w-full block">
+                    <label className="align-middle font-mono w-full block hover:cursor-pointer">
 
                       <input key={i} className="mx-4 align-middle" type="checkbox" name={index.toString()} value={Object.keys(questions[index].answers)[i]} onChange={onInputChange} />
                       {ans}
